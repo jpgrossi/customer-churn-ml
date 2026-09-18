@@ -2,6 +2,14 @@
 
 Sistema de prediccion de abandono de clientes (churn) para una empresa de telecomunicaciones. Proyecto Integrador de la materia Laboratorio de Mineria de Datos, ISTEA.
 
+## Integrantes del grupo
+
+- Aragusuku Pablo 
+- Silva Tobias
+- Piedrabuena Giuliana
+- Grossi Juan Pablo
+- Di Renzo Tomas
+
 **Alcance de esta entrega (Entrega 1 - Primer Parcial):** por indicacion del profesor en clase, esta entrega cubre hasta DVC/DagsHub. MLflow y Model Registry quedan para una etapa posterior de la cursada.
 
 ## Problema de negocio
