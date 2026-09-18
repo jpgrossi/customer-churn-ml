@@ -2,7 +2,8 @@
 .venv/
 
 # Datos (se versionan con DVC, no con Git)
-data/raw/
+data/raw/*
+!data/raw/*.dvc
 data/processed/
 data/reference/
 
