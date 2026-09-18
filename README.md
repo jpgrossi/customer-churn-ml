@@ -1,15 +1,8 @@
-# Customer Churn ML - Proyecto Integrador
+﻿# Customer Churn ML - Proyecto Integrador
 
 Sistema de prediccion de abandono de clientes (churn) para una empresa de telecomunicaciones. Proyecto Integrador de la materia Laboratorio de Mineria de Datos, ISTEA.
 
-Integrantes: 
-- Grossi Juan Pablo 
-- Aragusuku Pablo Ariel
-- Silva Tobias
-- Piedrabuena Giuliana Abigail
-- Di Renzo Tomas Federico
-
-**Alcance de esta entrega (Entrega 1 - Primer Parcial):** por indicacion del profesor en clase, esta entrega cubre hasta DVC/DagsHub. MLflow y Model Registry quedan para una etapa posterior
+**Alcance de esta entrega (Entrega 1 - Primer Parcial):** por indicacion del profesor en clase, esta entrega cubre hasta DVC/DagsHub. MLflow y Model Registry quedan para una etapa posterior de la cursada.
 
 ## Problema de negocio
 
@@ -23,18 +16,15 @@ El dataset esta versionado con DVC, con remote configurado en DagsHub. No se enc
 
 ## Estructura del proyecto
 
-customer-churn-ml/
-├── data/raw/ # Dataset (versionado con DVC)
-├── notebooks/ # Exploracion y analisis (EDA)
-├── src/
-│ ├── config.py # Constantes del proyecto
-│ ├── data/ # Carga y particion de datos
-│ ├── features/ # Pipeline de preprocessing
-│ └── training/ # Script de entrenamiento
-├── models/ # Modelo entrenado (no versionado en Git)
-├── requirements.txt
-└── README.md
-
+- `data/raw/` - Dataset, versionado con DVC
+- `notebooks/` - Exploracion y analisis (EDA)
+- `src/config.py` - Constantes del proyecto
+- `src/data/` - Carga y particion de datos
+- `src/features/` - Pipeline de preprocessing
+- `src/training/` - Script de entrenamiento
+- `models/` - Modelo entrenado, no versionado en Git
+- `requirements.txt` - Dependencias del proyecto
+- `README.md` - Este archivo
 
 ## Instalacion
 
@@ -43,17 +33,14 @@ customer-churn-ml/
 git clone https://github.com/jpgrossi/customer-churn-ml.git
 cd customer-churn-ml
 
-
 2. Crear y activar el entorno virtual:
 
 python -m venv .venv
 .venv\Scripts\activate
 
-
 3. Instalar dependencias:
 
 pip install -r requirements.txt
-
 
 4. Recuperar el dataset desde DVC:
 
@@ -99,7 +86,6 @@ El entrenamiento se ejecuta desde consola, sin depender de la ejecucion manual d
 
 python -m src.training.train
 
-
 El script carga los datos, realiza la particion train/test, entrena el pipeline con Logistic Regression, calcula las metricas sobre el conjunto de test, y guarda el modelo entrenado en `models/churn_pipeline.joblib`.
 
 ## DVC
@@ -107,8 +93,7 @@ El script carga los datos, realiza la particion train/test, entrena el pipeline 
 El dataset esta versionado con DVC, con remote configurado en DagsHub (`https://dagshub.com/jpgrossi/customer-churn-ml`). Para configurar las credenciales localmente:
 
 dvc remote modify origin --local auth basic
-dvc remote modify origin --local user <usuario>
-dvc remote modify origin --local password <token>
-
+dvc remote modify origin --local user usuario
+dvc remote modify origin --local password token
 
 El token se genera desde la configuracion de cuenta en DagsHub (Settings > Tokens) y nunca se sube al repositorio.
