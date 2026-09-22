@@ -20,4 +20,5 @@ __pycache__/
 
 # Sistema operativo
 .DS_Store
-Thumbs.db
+Thumbs.dbdata/production/
+data/scoring/
