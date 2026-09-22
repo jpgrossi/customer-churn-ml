@@ -1,16 +1,18 @@
-﻿# Customer Churn ML - Proyecto Integrador
+﻿@'
+# Customer Churn ML - Proyecto Integrador
 
 Sistema de prediccion de abandono de clientes (churn) para una empresa de telecomunicaciones. Proyecto Integrador de la materia Laboratorio de Mineria de Datos, ISTEA.
 
+**Alcance de esta entrega (Entrega 1 - Primer Parcial):** por indicacion del profesor en clase, esta entrega cubre hasta DVC/DagsHub. MLflow y Model Registry quedan para una etapa posterior de la cursada.
+
 ## Integrantes del grupo
 
-- Aragusuku Pablo 
+- Aragusuku Pablo Ariel
 - Silva Tobias
 - Piedrabuena Giuliana
 - Grossi Juan Pablo
 - Di Renzo Tomas
-
-**Alcance de esta entrega (Entrega 1 - Primer Parcial):** por indicacion del profesor en clase, esta entrega cubre hasta DVC/DagsHub. MLflow y Model Registry quedan para una etapa posterior de la cursada.
+- Lopez Maria
 
 ## Problema de negocio
 
@@ -30,7 +32,7 @@ El dataset esta versionado con DVC, con remote configurado en DagsHub. No se enc
 - `src/data/` - Carga y particion de datos
 - `src/features/` - Pipeline de preprocessing
 - `src/training/` - Script de entrenamiento
-- `models/` - Modelo entrenado, no versionado en Git
+- `models/` - Modelo entrenado, no versionado en Git (carpeta vacia en el repositorio: hay que crearla manualmente antes de entrenar, ver Instalacion)
 - `requirements.txt` - Dependencias del proyecto
 - `README.md` - Este archivo
 
@@ -41,6 +43,8 @@ El dataset esta versionado con DVC, con remote configurado en DagsHub. No se enc
 git clone https://github.com/jpgrossi/customer-churn-ml.git
 cd customer-churn-ml
 
+Importante: clonar en una ruta corta (por ejemplo `C:\Proyectos\customer-churn-ml`), evitando carpetas de OneDrive o rutas muy largas. Algunas dependencias (jupyterlab) generan archivos con nombres largos que pueden superar el limite de ruta de Windows y hacer fallar la instalacion.
+
 2. Crear y activar el entorno virtual:
 
 python -m venv .venv
@@ -50,11 +54,15 @@ python -m venv .venv
 
 pip install -r requirements.txt
 
-4. Recuperar el dataset desde DVC:
+4. Crear la carpeta de modelos (Git no versiona carpetas vacias, por lo que no se clona automaticamente):
+
+mkdir models
+
+5. Recuperar el dataset desde DVC:
 
 dvc pull
 
-(Requiere tener configurado el remote de DagsHub con credenciales validas, ver seccion "DVC" mas abajo.)
+(Requiere tener configurado el remote de DagsHub con credenciales validas, ver seccion "DVC" mas abajo. Si `dvc pull` no descarga el archivo, ver la seccion "Solucion de problemas".)
 
 ## Exploracion de datos (EDA)
 
@@ -94,7 +102,9 @@ El entrenamiento se ejecuta desde consola, sin depender de la ejecucion manual d
 
 python -m src.training.train
 
-El script carga los datos, realiza la particion train/test, entrena el pipeline con Logistic Regression, calcula las metricas sobre el conjunto de test, y guarda el modelo entrenado en `models/churn_pipeline.joblib`.
+El script carga los datos, realiza la particion train/test, entrena el pipeline con Logistic Regression, calcula las metricas sobre el conjunto de test, y guarda el modelo entrenado en `models/churn_pipeline.joblib`. La carpeta `models/` debe existir previamente (ver Instalacion, paso 4).
+
+Metricas esperadas (verificadas en mas de una maquina, confirmando reproducibilidad): Precision 0.664, Recall 0.452, F1 0.538, ROC-AUC 0.812.
 
 ## DVC
 
@@ -105,3 +115,24 @@ dvc remote modify origin --local user usuario
 dvc remote modify origin --local password token
 
 El token se genera desde la configuracion de cuenta en DagsHub (Settings > Tokens) y nunca se sube al repositorio.
+
+## Solucion de problemas
+
+### `dvc pull` no descarga el dataset (queda en "Everything is up to date" sin traer el archivo)
+
+Se detecto un comportamiento inconsistente en algunas instalaciones de DVC en Windows, donde `dvc pull`, `dvc fetch` y `dvc checkout` reportan que todo esta actualizado sin descargar realmente el archivo. Workarounds que funcionaron:
+
+Opcion 1: forzar el push del archivo puntual desde una maquina donde el dataset si este disponible localmente:
+
+dvc push -r origin data/raw/customer_churn_historical.csv.dvc
+
+Opcion 2: si el archivo esta en el cache local de DVC pero no en el workspace, copiarlo manualmente. El hash se encuentra en `data/raw/customer_churn_historical.csv.dvc`:
+
+Copy-Item ".dvc\cache\files\md5\<primeros_2_caracteres_del_hash>\<resto_del_hash>" -Destination "data\raw\customer_churn_historical.csv"
+
+Opcion 3: descargar el archivo manualmente desde la interfaz web de DagsHub (pestana Files, dentro de `data/raw/`) y guardarlo en `data/raw/customer_churn_historical.csv`.
+
+### Error de instalacion por rutas largas en Windows (OSError relacionado a jupyterlab/galata)
+
+Clonar el proyecto en una ruta corta (por ejemplo `C:\Proyectos\customer-churn-ml`), evitando carpetas de OneDrive, espacios o nombres largos en el path completo.
+'@ | Out-File -FilePath README.md -Encoding utf8
