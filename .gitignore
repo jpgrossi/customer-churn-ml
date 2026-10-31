@@ -2,8 +2,7 @@
 .venv/
 
 # Datos (se versionan con DVC, no con Git)
-data/raw/*
-!data/raw/*.dvc
+data/raw/*.csv
 data/processed/
 data/reference/
 
@@ -20,5 +19,6 @@ __pycache__/
 
 # Sistema operativo
 .DS_Store
-Thumbs.dbdata/production/
+Thumbs.db
+data/production/
 data/scoring/

@@ -1,4 +1,3 @@
-﻿@'
 # Customer Churn ML - Proyecto Integrador
 
 Sistema de prediccion de abandono de clientes (churn) para una empresa de telecomunicaciones. Proyecto Integrador de la materia Laboratorio de Mineria de Datos, ISTEA.
@@ -118,21 +117,22 @@ El token se genera desde la configuracion de cuenta en DagsHub (Settings > Token
 
 ## Solucion de problemas
 
-### `dvc pull` no descarga el dataset (queda en "Everything is up to date" sin traer el archivo)
+### `dvc pull` decia "Everything is up to date" sin descargar el dataset (resuelto)
 
-Se detecto un comportamiento inconsistente en algunas instalaciones de DVC en Windows, donde `dvc pull`, `dvc fetch` y `dvc checkout` reportan que todo esta actualizado sin descargar realmente el archivo. Workarounds que funcionaron:
+**Causa:** el `.gitignore` tenia la regla `data/raw/*` junto con la excepcion `!data/raw/*.dvc`. Git interpreta bien ese par de reglas, pero DVC usa otra libreria (dulwich) para leer el `.gitignore` y considera ignorada la carpeta `data/raw/`. Por eso DVC no entraba a la carpeta, no encontraba `customer_churn_historical.csv.dvc` y `dvc pull`, `dvc push`, `dvc fetch` y `dvc checkout` terminaban sin hacer nada. El problema no dependia de Windows ni de la instalacion. El push indicando el archivo `.dvc` si funcionaba porque no necesita buscarlo en las carpetas.
 
-Opcion 1: forzar el push del archivo puntual desde una maquina donde el dataset si este disponible localmente:
+**Solucion:** el `.gitignore` ahora ignora solo los CSV con `data/raw/*.csv`. No volver a usar `data/raw/*` en este repositorio.
 
-dvc push -r origin data/raw/customer_churn_historical.csv.dvc
+Para comprobar que DVC detecta el dataset:
 
-Opcion 2: si el archivo esta en el cache local de DVC pero no en el workspace, copiarlo manualmente. El hash se encuentra en `data/raw/customer_churn_historical.csv.dvc`:
+dvc status
 
-Copy-Item ".dvc\cache\files\md5\<primeros_2_caracteres_del_hash>\<resto_del_hash>" -Destination "data\raw\customer_churn_historical.csv"
+No debe aparecer el mensaje "There are no data or pipelines tracked in this project yet".
 
-Opcion 3: descargar el archivo manualmente desde la interfaz web de DagsHub (pestana Files, dentro de `data/raw/`) y guardarlo en `data/raw/customer_churn_historical.csv`.
+### `dvc pull` informa "Some of the cache files do not exist neither locally nor on remote"
+
+DVC muestra este mensaje tanto si faltan las credenciales de DagsHub (ver seccion "DVC") como si el archivo no esta en el remote. Primero configurar las credenciales y repetir `dvc pull`. Si el mensaje continua, subir el dataset con `dvc push` desde una maquina que lo tenga en `data/raw/`.
 
 ### Error de instalacion por rutas largas en Windows (OSError relacionado a jupyterlab/galata)
 
 Clonar el proyecto en una ruta corta (por ejemplo `C:\Proyectos\customer-churn-ml`), evitando carpetas de OneDrive, espacios o nombres largos en el path completo.
-'@ | Out-File -FilePath README.md -Encoding utf8
