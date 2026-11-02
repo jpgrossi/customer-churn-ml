@@ -62,7 +62,7 @@ def entrenar_y_registrar(nombre, modelo, X_train, X_test, y_train, y_test):
 
         mlflow.log_metrics(metricas)
         mlflow.log_dict({"labels": ["No", "Yes"], "matriz": matriz.tolist()}, "confusion_matrix.json")
-        mlflow.sklearn.log_model(pipeline, name="model", input_example=X_train.head(3), skops_trusted_types=["numpy.dtype"])
+        mlflow.sklearn.log_model(pipeline, name="model", input_example=X_train.head(3), skops_trusted_types=["numpy.dtype", "sklearn.tree._tree.Tree"])
 
         print(nombre, "- recall:", round(metricas["recall"], 3), "- roc_auc:", round(metricas["roc_auc"], 3))
 
@@ -92,4 +92,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
