@@ -25,3 +25,4 @@ data/scoring/
 mlflow.db
 mlruns/
 .env
+.pytest_cache/
