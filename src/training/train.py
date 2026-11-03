@@ -1,5 +1,7 @@
 ﻿import subprocess
 
+from dotenv import load_dotenv
+
 import pandas as pd
 import yaml
 import mlflow
@@ -14,6 +16,8 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 
 from src.config import ID_COL, TARGET, RANDOM_STATE, TEST_SIZE
 from src.features.build_pipeline import build_preprocessor
+
+load_dotenv()
 
 DATA_PATH = "data/raw/customer_churn_historical.csv"
 DVC_FILE = "data/raw/customer_churn_historical.csv.dvc"
@@ -92,6 +96,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 

@@ -1,7 +1,10 @@
 ﻿import mlflow
+from dotenv import load_dotenv
 from mlflow.tracking import MlflowClient
 
 # Run elegido: logreg_balanced (ver comparacion en el README)
+load_dotenv()
+
 RUN_ID = "22a9815163114e4592c049c3b77c0130"
 MODEL_NAME = "CustomerChurnModel"
 
@@ -33,4 +36,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 

@@ -24,3 +24,4 @@ data/production/
 data/scoring/
 mlflow.db
 mlruns/
+.env
