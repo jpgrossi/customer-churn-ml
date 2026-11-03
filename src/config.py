@@ -16,3 +16,8 @@ CATEGORICAL_FEATURES = [
 
 MODEL_DIR = 'models'
 MODEL_FILE = 'churn_pipeline.joblib'
+
+MODEL_NAME = 'CustomerChurnModel'
+MODEL_ALIAS = 'candidate'
+RISK_THRESHOLD_MEDIUM = 0.4
+RISK_THRESHOLD_HIGH = 0.7
